@@ -1,0 +1,10 @@
+IR
+m5stack/M5Stack@^0.4.3
+lovyan03/LovyanGFX@^1.1.2
+plerup/EspSoftwareSerial@^7.0.0
+electroniccats/MPU6050@^0.6.0
+Motor
+Camera
+Gyro
+Display
+cytrontechnologies/Cytron Motor Drivers Library@^1.0.1
