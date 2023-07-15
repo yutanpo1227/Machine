@@ -9,9 +9,9 @@ class Gyro {
         void setupMPU();
         void getYawPitchRoll();
         int getYaw();
-        int yaw;
-        int state;
     private:
+        int _yaw;
+        int _state;
 };
 
 #endif

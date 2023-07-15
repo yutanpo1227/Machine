@@ -2,7 +2,8 @@
 #include <Arduino.h>
 
 #define PLUS 30
-#define SPEED 255
+#define SPEED 0
+#define DIFF 10
 
 CytronMD motor1(PWM_PWM,16,17);
 CytronMD motor2(PWM_PWM,2,5);
@@ -14,8 +15,7 @@ Motor::Motor() {
 }
 
 void Motor::moveTo(int degree) {
-  int plus_power = 0;
-  int diff = 10;
+  int _plus_power = 0;
   extern int heading;
 
   if(heading >= 40)
@@ -30,41 +30,50 @@ void Motor::moveTo(int degree) {
   }
 
 
-  if (heading >= 0 && heading <= diff)
+  if (heading >= 0 && heading <= DIFF)
   {
-    plus_power = 0;//-GrovalCam;
+    _plus_power = 0;//-GrovalCam;
   }
-  else if (heading <= 0 && heading >= -diff)
+  else if (heading <= 0 && heading >= -DIFF)
   {
-    plus_power = 0;//-GrovalCam;
+    _plus_power = 0;//-GrovalCam;
   }
   else if(heading > 0)
   {
-    plus_power = -PLUS;
+    _plus_power = -PLUS;
   }
   else
   {
-    plus_power = PLUS;
+    _plus_power = PLUS;
   }
-  double motor_power[4];
-  double max_power;
+  double _motor_power[4];
+  double _max_power;
   degree -= 90;
-  motor_power[0] = cos((45 - degree) / 180.0 * PI);
-  motor_power[1] = cos((135 - degree) / 180.0 * PI);
-  motor_power[2] = cos((-135 - degree) / 180.0 * PI);
-  motor_power[3] = cos((-45 - degree) / 180.0 * PI);
+  _motor_power[0] = cos((45 - degree) / 180.0 * PI);
+  _motor_power[1] = cos((135 - degree) / 180.0 * PI);
+  _motor_power[2] = cos((-135 - degree) / 180.0 * PI);
+  _motor_power[3] = cos((-45 - degree) / 180.0 * PI);
 
   for (int i = 0; i < 4; i++)
   {
-    if (abs(motor_power[i]) > max_power)
+    if (abs(_motor_power[i]) > _max_power)
     {
-      max_power = abs(motor_power[i]);
+      _max_power = abs(_motor_power[i]);
     }
   }
 
   for (int i = 0; i < 4; i++)
   {
-    motor_power[i] = SPEED * motor_power[i] / max_power + plus_power;
+    _motor_power[i] = SPEED * _motor_power[i] + _plus_power / _max_power + _plus_power;
+    
+    if(_motor_power[i] > 255)
+    {
+      _motor_power[i] = 255;
+    }
+    else if(_motor_power[i] < -255)
+    {
+      _motor_power[i] = -255;
+    }
     // for (int j = (num - 1); j > 0; j--)
     // {
     //   ave_motor_power[i][j] = ave_motor_power[i][j - 1];
@@ -78,10 +87,10 @@ void Motor::moveTo(int degree) {
     // motor_power[i] = ave_mpPlus / num;
   }
 
-  motor1.setSpeed((int)motor_power[0]);
-  motor2.setSpeed((int)motor_power[1]);
-  motor3.setSpeed((int)motor_power[2]);
-  motor4.setSpeed((int)motor_power[3]);
+  motor1.setSpeed((int)_motor_power[0]);
+  motor2.setSpeed((int)_motor_power[1]);
+  motor3.setSpeed((int)_motor_power[2]);
+  motor4.setSpeed((int)_motor_power[3]);
   delay(1);
 }
 
@@ -90,6 +99,7 @@ void Motor::stop(){
     motor2.setSpeed(0);
     motor3.setSpeed(0);
     motor4.setSpeed(0);
+    delay(1);
 }
 
 void Motor::turnR(int power){

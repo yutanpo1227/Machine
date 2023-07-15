@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Display.h"
 
+
 Camera::Camera()
 {
 }
@@ -28,14 +29,11 @@ void Camera::Read()
     {
         Camerastate = 1;
     }
-    while(Serial2.available()>0)
+    while(Serial2.available())
     {
         Camerastate = 0;
         losscount = 0;
-        int val = Serial2.read();
-        if(val != 0)
-        {
-            GrovalCam = val-50;
-        }
+        String val = Serial2.readStringUntil('\n');
+        GrovalCam = -(val.toInt() - 55);
     }
 }

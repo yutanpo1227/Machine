@@ -17,11 +17,11 @@ float ypr[3];           // [roll, pitch, yaw]   roll/pitch/yaw container and gra
 
 Gyro::Gyro()
 {
-  state = 0;
 }
 
 void Gyro::setupMPU()
 {
+  extern int Gyrostate;
   Wire.begin();
   Wire.setClock(400000); // 400kHz I2C clock. Comment this line if having compilation difficulties
   mpu.initialize();
@@ -43,19 +43,22 @@ void Gyro::setupMPU()
     mpu.setDMPEnabled(true);
     packetSize = mpu.dmpGetFIFOPacketSize();
   } else {
-    state = 1;
+    Gyrostate = 1;
     Serial.print("DMP Initialization failed.");
   }
 }
 
 void Gyro::getYawPitchRoll()
 {
+  extern int Gyrostate;
+  if(Gyrostate == 2)
+    return;
   if (mpu.dmpGetCurrentFIFOPacket(fifoBuffer)) { // Get the Latest packet
       mpu.dmpGetQuaternion(&q, fifoBuffer);
       mpu.dmpGetGravity(&gravity, &q);
       mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
   }
-  //delay(1);
+  delay(1);
 }
 
 int Gyro::getYaw()
@@ -64,6 +67,6 @@ int Gyro::getYaw()
   if(Gyrostate == 2)
     return 0;
   getYawPitchRoll();
-  yaw = int(ypr[0] * 180 / M_PI);
-  return yaw;
+  _yaw = int(ypr[0] * 180 / M_PI);
+  return _yaw;
 }

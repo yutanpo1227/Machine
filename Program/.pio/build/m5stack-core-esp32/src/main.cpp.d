@@ -228,4 +228,5 @@
  .pio/libdeps/m5stack-core-esp32/EspSoftwareSerial/src/circular_queue/Delegate.h \
  lib/Camera/Camera.h lib/Gyro/Gyro.h lib/Motor/Motor.h \
  .pio/libdeps/m5stack-core-esp32/Cytron\ Motor\ Drivers\ Library/CytronMotorDriver.h \
- lib/Display/Display.h lib/IR/IR.h
+ lib/Display/Display.h lib/IR/IR.h lib/Line/Line.h \
+ .pio/libdeps/m5stack-core-esp32/MCP_ADC/MCP_ADC.h

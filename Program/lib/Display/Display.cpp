@@ -26,8 +26,7 @@ void Display::setupDisplay(){
     canvas.setFont(&fonts::Font4);
 }
 
-void Display::drawUI(int heading,int IR)
-{
+void Display::drawUI(int heading,int IR){
     extern int battery;
     extern int Gyrostate;
     extern int IRstate;
@@ -96,12 +95,12 @@ void Display::drawUI(int heading,int IR)
 
 
     canvas.drawCircle(231,152,70,BLACK);
-    float deg = (heading-90) / (180 / PI);
-    float deg2 = (IR-90) / (180 / PI);
-    float deg3 = (GrovalCam-90) / (180 / PI);
-    canvas.fillCircle(231 + 70 * cos(deg), 152 + 70 * sin(deg), 7, GREEN);
-    canvas.fillCircle(231 + 70 * cos(deg2), 152 + 70 * sin(deg2), 7, RED);
-    canvas.fillCircle(231 + 70 * cos(deg3), 152 + 70 * sin(deg3), 7, BLUE);
+    float _deg = (heading+GrovalCam-90) / (180 / PI);    //mainでheading-GrovalCamしてるので
+    float _deg2 = (IR-90) / (180 / PI);
+    float _deg3 = (GrovalCam-90) / (180 / PI);
+    canvas.fillCircle(231 + 70 * cos(_deg), 152 + 70 * sin(_deg), 7, GREEN);
+    canvas.fillCircle(231 + 70 * cos(_deg2), 152 + 70 * sin(_deg2), 7, RED);
+    canvas.fillCircle(231 + 70 * cos(_deg3), 152 + 70 * sin(_deg3), 7, BLUE);
     canvas.setCursor(210,137);
     canvas.printf("Gyro:%d",heading);
     canvas.setCursor(205,155);

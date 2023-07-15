@@ -9,11 +9,11 @@ class IR {
         int GetIRval(int f);
         int GetIRdir(int i);
         int aveIR();
-        int angle;
-        int prevIR, count;
-        int dirIR;
-        int state;
     private:
+        int _angle;
+        int _prevIR, _count;
+        int _dirIR;
+        int _state;
 };
 
 #endif
