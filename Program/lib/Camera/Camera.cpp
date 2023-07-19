@@ -34,6 +34,11 @@ void Camera::Read()
         Camerastate = 0;
         losscount = 0;
         String val = Serial2.readStringUntil('\n');
+        if(val.toInt() == -1)
+        {
+            Camerastate = 1;
+            return;
+        }
         GrovalCam = -(val.toInt() - 55);
     }
 }

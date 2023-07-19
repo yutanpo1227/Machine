@@ -2,7 +2,7 @@
 #include <Arduino.h>
 
 #define PLUS 30
-#define SPEED 0
+#define SPEED 255
 #define DIFF 10
 
 CytronMD motor1(PWM_PWM,16,17);

@@ -63,11 +63,11 @@ void loop() {
     {
       if(_irAngle >= 10 && _irAngle <= 180)
       {
-        motor.moveTo(_irAngle + 70*pow(_irAngle/180,2));
+        motor.moveTo(_irAngle + 90*_irAngle/180);
       }
       else if(_irAngle > 180 && _irAngle <= 350)
       {
-        motor.moveTo(_irAngle - 70*pow((360-_irAngle)/180,2));
+        motor.moveTo(_irAngle - 90*(360-_irAngle)/180);
       }
     }
   }
